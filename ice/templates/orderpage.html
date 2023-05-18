@@ -1,0 +1,96 @@
+{%extends 'base2.html'%}
+
+{%block head%}
+
+<style>
+
+.container{
+  position: relative;
+  margin-top: 10%;
+}
+
+</style>
+
+  {%endblock head%}
+
+
+{%block body%}
+
+       <div class="container">
+        <div class="row">
+          <table class="table table-hover table-striped table-light mt-5">
+            <thead>
+              <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">Contact no.</th>
+                <th scope="col">Address</th>
+                <th scope="col">Icecream</th>
+                <th scope="col">Paid</th>
+
+
+              </tr>
+            </thead>
+
+            {%if var%}
+
+            {%for i in var%}
+
+            <tbody>
+
+              <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{i.Mobileno}}</td>
+                <td>{{i.Address}}</td>
+                <td>{{i.icecream}}</td>
+                <th scope="row">{{i.is_paid}}</th>
+
+
+              </tr>
+            </tbody>
+
+            {%endfor%}
+
+            {%endif%}
+
+          </table>
+        </div>
+       </div>
+       
+{%endblock body%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

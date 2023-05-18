@@ -1,0 +1,149 @@
+{%extends 'base1.html'%}
+{%block head%}
+
+<style>
+
+  h2 {
+    color: grey;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+
+  .card h5 {
+    color: grey;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  #fluid {
+    background-color: black;
+  }
+
+  #footer {
+    margin-top: 20%;
+    background-color: black;
+    padding-top: 3%;
+    position: absolute;
+    opacity: 0.8;
+    height: 50%;
+  }
+
+  .container-fluid a {
+    color: red;
+    text-decoration: none;
+  }
+
+  #footer a {
+    font-family: 'Times New Roman', Times, serif;
+    padding: 2%;
+    letter-spacing: 1px;
+
+  }
+
+  .container-fluid a:hover {
+    color: yellow;
+  }
+</style>
+{%endblock head%}
+
+{% block body %}
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://cdn.pixabay.com/photo/2019/11/23/20/04/coffee-4648041_960_720.jpg" class="d-block w-90" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="https://wallpapercave.com/wp/wp4075711.jpg" class="d-block w-90" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-1274894_960_720.jpg" class="d-block w-90" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<div class="container-fluid" id="fluid">
+  <div class="container my-5 ">
+    <h2 c>
+      <center>Select your Favourite Icecream</center>
+    </h2>
+    {% if ice %}
+    <div class="row my-5 ">
+      {% for i in ice %}
+      <div class="col-md-4">
+        <div class="card my-1 " style="width: 18rem;">
+          <img src="{{MEDIA_URL}}{{i.image.url}}" class="card-img-top" alt="Icecream" style="height: 300px;">
+          <div class="card-body">
+            <h5 class="card-text">{{i.icecream_name}}</h5>
+            <h5  class="card-text">Rs.{{i.price}}</h5>
+
+            <a href="{% url 'payment_process' pk=i.id %}">
+              <div class="btn btn-dark btn-md">Order Now</div>
+              
+            </a>
+            
+            <a href="{% url 'cart' pk=i.id  %}">
+              <div class="btn btn-dark btn-md mx-4">Add Cart</div>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+      {%endfor%}
+
+      </div>
+      {%endif%}
+    </div>
+  </div>
+</div>
+
+<footer>
+  
+  <div class="container-fluid " id="footer">
+    <center>
+      <h1>Links</h1>
+    </center>
+
+    <div class="col-md-3">
+      <a href="/login">Login</a>
+    </div>
+    <div class="col-md-3">
+      <a href="#">Location map</a>
+    </div>
+    <div class="col-md-3">
+      <a href="#">Recruiters Companies</a>
+    </div>
+    <div class="col-md-3">
+      <a href="#">Helpline no - 12312</a>
+    </div>
+    <div class="col-md-3">
+      <a href="#">Rates</a>
+    </div>
+
+  </div>
+</footer>
+{% endblock body%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+
+</html>

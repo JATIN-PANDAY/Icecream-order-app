@@ -1,0 +1,68 @@
+{%extends 'base1.html'%}
+
+{%block head%}
+<style>
+
+  .container {
+    margin-top: 10%;
+
+  }
+
+</style>
+
+{%endblock head%}
+
+{% block body %}
+
+<form action="{% url 'order' pk=ice.id %}" method="post">
+  {% csrf_token %}
+  
+  {%if user%}
+
+  <div class="container">
+  
+        <div class="input-group mb-3">
+          <span class="input-group-text">Name</span>
+  
+          <input type="text" class="form-control" placeholder="Enter your name" aria-label="Username"
+            aria-describedby="basic-addon1" name='name' value="{{user.Username}}" required>
+        </div>
+        <span class="input-group-text">Contact number</span>
+  
+        <input type="number" class="form-control" placeholder="Enter your phone no." aria-label="Username"
+          aria-describedby="basic-addon1" name='phone.no' value='{{user.Mobileno}}'required>
+        <div class="input-group mt-3">
+          <span class="input-group-text">Address</span>
+  
+          <input type="text" class="form-control" placeholder="Enter your address" aria-label="Username"
+            aria-describedby="basic-addon1" name='address' value="{{user.Address}}" required>
+        </div>
+        
+        <div class="input-group mt-3">
+          <span class="input-group-text">Icecream</span>
+          <input type="text" class="form-control" placeholder="Enter the Icecream Name" aria-label="Username"
+            aria-describedby="basic-addon1" name='select'value='{{ice.icecream_name}}' readonly required>
+        </div>
+        <div class="input-group mt-3">
+          <span class="input-group-text">Price</span>
+          <input type="text" class="form-control" placeholder="Enter the Icecream Name" aria-label="Username"
+            aria-describedby="basic-addon1" name='amount'value='{{ice.price}}' readonly required>
+        </div>
+  
+        {%endif%}
+  
+  
+  
+          </select>
+  
+          <div class="input-group mt-4">
+            <a href="{% url 'payment_process' pk=ice.id %}" ><button class='btn btn-dark'><b>Next >></b></button></a>
+            </div>
+        </div>
+        {% endblock body %}
+  
+  
+</form>
+</body>
+
+</html>

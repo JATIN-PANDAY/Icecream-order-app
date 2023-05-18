@@ -1,0 +1,85 @@
+{%extends 'base2.html'%}
+
+{%block body%}
+       <div class="container">
+        <div class="row">
+          <table class="table table-hover table-striped table-light my-5">
+            <thead>
+              <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">Icecream</th>
+                <th scope="col">Price</th>
+                <th scope="col">Action</th>
+
+
+
+
+              </tr>
+            </thead>  
+            <tbody>
+              {% for i in cart.cartitems.all %}
+
+              <tr>
+
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{i.icecream.icecream_name}}</td>
+                <td>{{i.icecream.price}}</td>
+                <td><a href="{% url 'deleteitems' pk=i.id %}"><button class="btn btn-dark">Remove</button></a></td>
+                
+
+
+              </tr>
+              {%endfor%}
+              <tr scope="row"></tr>
+              <td></td>
+              <td></td>
+              <td>
+                
+                <a class='btn btn-primary' ><b>Grand Total:{{cart.get_cart_total}}</b></a>
+
+                
+              </td>
+
+            </tbody>
+
+          </table>
+
+        </div>
+       </div>
+{%endblock body%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
