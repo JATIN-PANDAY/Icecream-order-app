@@ -33,17 +33,15 @@ class Order(models.Model):
     user_id= models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True)
     icecream=models.CharField(max_length=60,null=True)
     price=models.CharField(max_length=60,null=True)
-    # order_id = models.UUIDField(default = uuid.uuid4)
-
     order_id=models.CharField(max_length=500,null=True)
-    # order_id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable = False)
-
     is_paid=models.BooleanField(default=False)
 
 
 class Cart(models.Model):
     user= models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True,related_name='cart')
     is_paid=models.BooleanField(default=False)
+    instamojo_id=models.CharField(max_length=500,null=True)
+
 
     def get_cart_total(self ):
         return Cartitems.objects.filter(cart = self).aggregate(Sum('icecream__price'))['icecream__price__sum']

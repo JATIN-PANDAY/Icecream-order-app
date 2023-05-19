@@ -124,8 +124,7 @@ def payment_process(request,pk):
     master=request.session['id']
     user=User.objects.get(user_id=master)
     ice=Icecream.objects.get(id=pk)
-    order_obj = Order.objects.get_or_create(user_id=user,icecream=ice,price=ice.price,is_paid=False)
-
+    order_obj,_= Order.objects.get_or_create(user_id=user,icecream=ice,price=ice.price,is_paid=False)
     response = api.payment_request_create(
         amount=ice.price,  
         purpose = 'Order',
@@ -133,12 +132,9 @@ def payment_process(request,pk):
         redirect_url = "http://127.0.0.1:8000/success",
         
     )
-
     print(response)
-    print (response['payment_request']['id'])
-    # order_obj.order_id=response['payment_request']['id']
-    # order_obj.save()
-
+    order_obj.order_id = response['payment_request']['id']
+    order_obj.save()
 
     context={
 
@@ -149,16 +145,16 @@ def payment_process(request,pk):
             
     return render(request,'pay.html',context)
 
-
-
 def success(request):
     master=request.session['id']
     user = User.objects.get(user_id=master)
-    # order = Order.objects.get(order=payment_request_id)
-    # order=Order.objects.get(pk=id)
-    # order.is_paid=True
-    # order.save()
+    payment_request=request.GET.get('payment_request_id')
+    order=Order.objects.get( order_id=payment_request )
+    order.is_paid=True
+    order.save()
     return render(request,'success.html')
+
+
     
 
 def userorderpage(request,pk):
@@ -191,14 +187,35 @@ def showcart(request):
         user=User.objects.get(user_id=master)
         cart=Cart.objects.get(user=user,is_paid=False)
 
-        context={
-            'user':user,'cart':cart ,
+        response = api.payment_request_create(
+            amount=cart.get_cart_total(),  
+            purpose = 'Order',
+            buyer_name = user,               
+            redirect_url = "http://127.0.0.1:8000/order_success",
             
-                    }
+        )
+
+        print(response)
+        cart.instamojo_id=response['payment_request']['id']
+        cart.save()
+
+        context={
+                'user':user,'cart':cart ,
+                'payment_url':response['payment_request']['longurl']
+    }
+
         return render(request,'cart.html',context)
     except Exception as e:
         return render(request,'404.html')
 
+def order_success(request):
+    master=request.session['id']
+    user = User.objects.get(user_id=master)
+    payment_request=request.GET.get('payment_request_id')
+    cart=Cart.objects.get( instamojo_id=payment_request )
+    cart.is_paid=True
+    cart.save()
+    return render(request,'success.html')
 
 def deleteitems(request,pk):
     master=request.session['id']
